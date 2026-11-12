@@ -1,0 +1,29 @@
+<!doctype html><meta charset="utf-8"><title>SpikeGuard-QC</title>
+<style>
+ body{font-family:system-ui;margin:16px;background:#111;color:#eee}
+ .row{display:flex;gap:16px;flex-wrap:wrap}.card{background:#1c1c1c;padding:12px;border-radius:8px;min-width:260px}
+ .high{color:#ff5c5c}.medium{color:#ffb84d}.low{color:#6fdc8c}
+ table{border-collapse:collapse;font-size:12px}td,th{padding:3px 8px;border-bottom:1px solid #333}
+ img{width:256px;image-rendering:pixelated}button{margin-right:6px}
+</style>
+<h2>SpikeGuard-QC operator view</h2>
+<div class="row">
+ <div class="card"><img id="f" src="/api/frame.jpg"><div id="det"></div></div>
+ <div class="card"><h3>Machine health</h3><div id="mach"></div><h3>Advisory</h3><div id="adv">-</div>
+  <p>Demo: <button onclick="sc(0.05)">mostly good</button><button onclick="sc(0.7)">defect burst</button></p></div>
+</div>
+<h3>Recent inspections</h3><table id="t"></table>
+<script>
+async function sc(p){await fetch('/api/scenario',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({defect_prob:p})})}
+async function tick(){
+ const s=await (await fetch('/api/status')).json(), st=s.status||{}, e=st.event||{}, m=st.machine;
+ document.getElementById('f').src='/api/frame.jpg?'+Date.now();
+ document.getElementById('det').innerHTML=`<b>${e.decision||'-'}</b> ${e.defect_class||''} (${(e.confidence||0).toFixed(2)})<br>
+   severity ${e.severity||'-'} &middot; rate ${((e.rolling_defect_rate||0)*100).toFixed(0)}% &middot; ${st.latency_ms||'-'} ms`;
+ document.getElementById('mach').innerHTML=m?`${m.zone} &middot; ${m.loop_ma.toFixed(1)} mA &middot; ${m.source}`:'<i>unavailable (vision-only mode)</i>';
+ const a=s.advice; document.getElementById('adv').innerHTML=a?`<span class="${a.urgency}">[${a.urgency}] ${a.category}</span><br>${a.summary}<br><i>${a.likely_cause}</i><br>${a.action}<br><small>${a.meta.source}, ${a.meta.wall_ms} ms</small>`:'-';
+ const rows=await (await fetch('/api/inspections?n=12')).json();
+ document.getElementById('t').innerHTML='<tr><th>id<th>class<th>conf<th>sev<th>decision<th>category<th>zone</tr>'+rows.map(r=>`<tr><td>${r.frame_id}<td>${r.defect_class||'-'}<td>${(r.confidence||0).toFixed(2)}<td>${r.severity}<td>${r.decision}<td>${r.category}<td>${r.zone}</tr>`).join('');
+}
+setInterval(tick,1000);tick();
+</script>

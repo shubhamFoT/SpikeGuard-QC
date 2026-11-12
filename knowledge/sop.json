@@ -1,0 +1,15 @@
+{
+  "_note": "DRAFT knowledge for a hot-rolled steel strip line. Have your faculty mentor or an industry contact review every entry before you rely on it.",
+  "crazing":         {"likely_causes": ["uneven cooling or thermal shock", "excessive rolling stress"],
+                      "first_checks":  ["cooling-water uniformity", "rolling temperature", "roll condition"]},
+  "inclusion":       {"likely_causes": ["non-metallic particles carried in from the melt or slag"],
+                      "first_checks":  ["heat and batch traceability", "supplier material certificate"]},
+  "patches":         {"likely_causes": ["uneven scale removal", "surface contamination"],
+                      "first_checks":  ["descaler nozzles and water pressure", "surface cleanliness"]},
+  "pitted_surface":  {"likely_causes": ["scale or corrosion residue", "damaged roll surface"],
+                      "first_checks":  ["roll surface condition", "descaling effectiveness", "storage humidity"]},
+  "rolled-in_scale": {"likely_causes": ["poor descaling before rolling"],
+                      "first_checks":  ["descaler nozzles", "descaling water pressure and temperature"]},
+  "scratches":       {"likely_causes": ["contact with guides or rollers", "debris on the line"],
+                      "first_checks":  ["guide rails", "roller surfaces", "line entry for debris"]}
+}

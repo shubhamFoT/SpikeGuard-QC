@@ -1,0 +1,13 @@
+﻿.venv/
+__pycache__/
+*.pyc
+runs/
+data/*
+!data/.gitkeep
+*.pt
+*.pte
+*.pth
+*.db
+inspections_export.csv
+.ipynb_checkpoints/
+.DS_Store

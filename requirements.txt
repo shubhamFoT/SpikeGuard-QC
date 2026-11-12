@@ -1,0 +1,14 @@
+# --- common (laptop and Pi) ---
+numpy
+scipy
+scikit-learn
+opencv-python-headless
+pyyaml
+fastapi
+uvicorn
+pydantic
+pytest
+# --- vision training / export (laptop or Colab; Python 3.10-3.13) ---
+ultralytics            # AGPL-3.0 - see licence note
+torch>=2.9
+executorch             # pin the exact version you export with; the Pi runtime must match it
