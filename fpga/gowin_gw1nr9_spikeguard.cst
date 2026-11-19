@@ -1,0 +1,21 @@
+// Physical Constraints for Sipeed Tang Nano 9K (Gowin GW1NR-LV9QN88PC6/I5)
+IO_LOC  "clk" 52;
+IO_PORT "clk" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+
+IO_LOC  "rst_n" 4;
+IO_PORT "rst_n" IO_TYPE=LVCMOS18 PULL_MODE=UP;
+
+IO_LOC  "uart_tx" 17;
+IO_PORT "uart_tx" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
+
+IO_LOC  "hw_irq" 18;
+IO_PORT "hw_irq" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
+
+IO_LOC  "trig_flags[0]" 31;
+IO_PORT "trig_flags[0]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+
+IO_LOC  "trig_flags[1]" 32;
+IO_PORT "trig_flags[1]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+
+IO_LOC  "trig_flags[2]" 33;
+IO_PORT "trig_flags[2]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
