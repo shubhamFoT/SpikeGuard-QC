@@ -21,3 +21,7 @@ runs/
 *.pte
 
 *.pt
+
+.agents/
+
+.claude/
