@@ -11,3 +11,13 @@ data/*
 inspections_export.csv
 .ipynb_checkpoints/
 .DS_Store
+
+models/
+
+runs/
+
+.venv/
+
+*.pte
+
+*.pt
