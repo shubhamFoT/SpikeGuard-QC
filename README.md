@@ -1,50 +1,28 @@
-# SpikeGuard-QC: 3-Stage Event-Driven Industrial Defect Detection & Offline QC Assistant
+# SpikeGuard-QC — Arm Bharat AI-SoC Challenge (PS5)
+Event-aware industrial defect inspection: FPGA spiking front-end (Stage 0) → ExecuTorch YOLO11n (Stage 1) →
+rule engine + offline Llama-3.2-1B advisor via ExecuTorch (Stage 2) → persistent hash-chained ISO-9001 audit log.
 
-**Arm Bharat AI-SoC Challenge (2nd Edition) — Problem Statement 5**  
-**Author:** Shubham  (`shubhamFoT`) | B.Tech ECE, Faculty of Technology, University of Delhi
+## What is real in this repo
+| Stage | Phase-1 status | How to reproduce |
+|---|---|---|
+| 0 RTL | simulated (Icarus) + synthesised (Yosys 0.33) | `scripts/run_rtl_sim.sh`, `scripts/run_yosys.sh` |
+| 1 Vision | real ExecuTorch .pte inference on real images | `python edge_pipeline_runner.py --image <img> --scenario vibration --no-llm` |
+| 2 Llama | real if `docs/LLAMA_SETUP.md` completed; otherwise reported UNAVAILABLE (never faked) | `docs/LLAMA_SETUP.md` |
+| Hardware | **not yet** (Phase 2): Tang Nano 9K + Raspberry Pi 5 | – |
 
----
+## Quick start (WSL2 / Linux)
+```bash
+pip install -r requirements.txt torch executorch
+bash scripts/run_rtl_sim.sh                 # makes sim/uart_frames.csv from the real RTL
+pytest -q                                   # unit tests
+streamlit run shopfloor_dashboard.py        # operator console
+python benchmark_track_a_d.py --images data/test_images --llama-runs 3   # honest benchmark -> docs/benchmarks/
+```
+Place NEU-DET **test-split** images in `data/test_images/` and the exported model at
+`runs/neu_y11n/weights/best_executorch_model/best.pte` (or set `SPIKEGUARD_VISION_PTE`).
+Large files (.pte) are not in git; publish them as a GitHub Release and link here.
 
-## 1. System Architecture (3-Stage Edge Pipeline)
-
-SpikeGuard-QC combines a sub-millisecond FPGA spiking anomaly trigger with quantized ExecuTorch models running on Arm Cortex-A NEON and Arm KleidiAI microkernels for offline industrial quality control and root-cause reporting.
-
-```text
-[Sensors: Acoustic / Vibration / Current]
-                  │
-                  ▼
-┌────────────────────────────────────────────────────────┐
-│ Stage 0: Gowin GW1NR-9 FPGA (Verilog RTL)              │
-│  • 27 MHz clock | 100 kHz LIF sample tick | 1 ms window │
-│  • Q8.8 Leaky Integrate-and-Fire (LIF) neuron + IRQ    │
-│  • 12-byte binary UART packetizer (115200 8N1, XOR CRC) │
-└───────────────────────────┬────────────────────────────┘
-                            │ UART (115200 8N1) + hw_irq
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│ Stage 1: Visual Defect Detection (ExecuTorch .pte)     │
-│  • YOLO11n trained on NEU-DET (6 surface defect classes)│
-│  • Input: (1, 3, 256, 256) BCHW → Output: (1, 10, 1344)│
-│  • Target <25 ms/frame on Arm Cortex-A NEON (XNNPACK)  │
-└───────────────────────────┬────────────────────────────┘
-                            │ Fused [FPGA Spikes + Vision Defect]
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│ Stage 2: Offline QC Assistant (ExecuTorch .pte)        │
-│  • Llama-3.2-1B-Instruct quantized to 8da4w + 8w        │
-│  • Accelerated via XNNPACK / Arm KleidiAI microkernels  │
-│  • Outputs PASS / QUARANTINE / STOP-LINE + root cause │
-│    and corrective action with ISO-9001 / IPC traceability│
-└────────────────────────────────────────────────────────┘
-
-SpikeGuard-QC/
-├── fpga/
-│   ├── lif_neuron_core.v            # Q8.8 LIF neuron core
-│   ├── snn_uart_packetizer.v        # 12-byte UART packetizer (115200 8N1)
-│   ├── spikeguard_top.v             # Top-level 27 MHz / 100 kHz / 1 ms SNN + IRQ + UART
-│   └── gowin_gw1nr9_spikeguard.cst  # Tang Nano 9K (GW1NR-9) pin constraints
-├── .gitignore
-├── benchmark_track_a_d.py           # .pte verification & latency benchmark runner
-├── edge_pipeline_runner.py          # 3-stage pipeline runner (SNN + Vision + QC LLM)
-├── shopfloor_dashboard.py           # Streamlit shop-floor operator dashboard
-└── README.md
+## Decision logic
+`STOP_LINE` if severity ≥ 0.75, or defect ∧ ≥30 spikes/ms · `QUARANTINE` if any defect, or ≥30 spikes/ms ·
+else `PASS`. Decided by a deterministic rule engine; Llama only explains (root cause + corrective action).
+Thresholds: `Config` in `edge_pipeline_runner.py`. Stage-0 hardware limit: 50 spikes per 1 ms window.

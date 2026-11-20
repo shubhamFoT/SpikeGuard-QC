@@ -1,0 +1,12 @@
+---- SpikeGuard Stage-0 RTL regression (27 MHz, 100 kHz LIF, 1 ms window, 460800 baud) ----
+idle           frames=4 spikes=[0..0] peak_raw=0 irq=0  (expect 0..0, irq=0)
+acoustic       frames=4 spikes=[11..11] peak_raw=17189 irq=0  (expect 9..12, irq=0)
+vibration      frames=4 spikes=[20..20] peak_raw=17957 irq=1  (expect 18..21, irq=1)
+current        frames=4 spikes=[25..25] peak_raw=20340 irq=1  (expect 23..26, irq=1)
+all_channels   frames=4 spikes=[50..50] peak_raw=25920 irq=1  (expect 48..50, irq=1)
+glitch_10us    frames=3 max_spikes=0 peak_raw=6151 irq=0  (expect 0 spikes, irq=0, peak>0)
+burst_0p3ms    frames=3 max_spikes=6 peak_raw=17963 irq=0  (expect max 4..8, irq=0)
+burst_0p9ms    frames=3 max_spikes=18 peak_raw=17957 irq=1  (expect max 15..21, irq=1)
+UART overruns (dropped frames): 0
+RESULT: PASS
+tb/tb_spikeguard_top.v:172: $finish called at 45401484823 (1ps)

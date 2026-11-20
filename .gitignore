@@ -1,27 +1,37 @@
-﻿.venv/
-__pycache__/
-*.pyc
-runs/
-data/*
-!data/.gitkeep
-*.pt
-*.pte
-*.pth
-*.db
-inspections_export.csv
-.ipynb_checkpoints/
-.DS_Store
-
+logs/
 models/
-
-runs/
-
-.venv/
-
+sim/*.vcd
+sim/tb_spikeguard
+__pycache__/
 *.pte
+.venv-wsl/
 
-*.pt
+# Large local LLM weights & WSL virtual environment
+.venv-wsl/
+models/llama_et/
+models/llama3.2-1b-instruct-hf/
+logs/
+__pycache__/
+*.vcd
+*.vvp
 
+# Large local LLM weights & WSL virtual environment
+.venv-wsl/
+models/llama_et/
+models/llama3.2-1b-instruct-hf/
+logs/
+__pycache__/
+*.vcd
+*.vvp
+
+# Local agent configs, scratch notes, runtime DB & raw training datasets
 .agents/
-
 .claude/
+inspections.db
+docs/report_corrections.md
+docs/DEMO_VIDEO_GUIDE.md
+data/cwru/
+data/neu_yolo/
+
+# Ignore extra YOLO training/export scratch inside runs/ (best.pt & best.pte are tracked)
+runs/

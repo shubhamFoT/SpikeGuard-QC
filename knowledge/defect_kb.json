@@ -1,0 +1,51 @@
+{
+  "_meta": {
+    "purpose": "Offline retrieval notes injected into the Llama prompt (grounding). Illustrative engineering notes for NEU-DET hot-rolled steel strip defects - validate with a process/metallurgy engineer before production use.",
+    "quality_system_refs": [
+      "ISO 9001:2015 clause 8.7 - Control of nonconforming outputs",
+      "ISO 9001:2015 clause 10.2 - Nonconformity and corrective action"
+    ]
+  },
+  "classes": {
+    "crazing": {
+      "description": "Network of fine surface cracks (crazing) on the strip surface.",
+      "typical_causes": ["thermal shock / uneven cooling after rolling", "excessive roll surface wear or roll-cooling water imbalance", "high surface tension during reduction"],
+      "corrective_actions": ["check cooling-zone water flow and temperature gradient", "inspect work-roll surface condition and schedule a roll change if worn", "hold affected coil section for metallurgical sampling"],
+      "sensor_hints": {"vibration": "vibration bursts alongside crazing suggest roll chatter or unstable strip tension", "current": "main-drive current spikes suggest load fluctuation during reduction", "acoustic": "acoustic bursts may indicate micro-cracking events"}
+    },
+    "inclusion": {
+      "description": "Non-metallic or foreign material embedded in the surface (inclusions).",
+      "typical_causes": ["slag or refractory carry-over from steelmaking/casting", "foreign debris pressed in during rolling", "contaminated descaling water"],
+      "corrective_actions": ["divert affected section to quarantine for visual/metallographic check", "inspect descaler nozzles and filtration upstream of the stand", "review tundish/casting cleanliness records for the heat"],
+      "sensor_hints": {"vibration": "impact-type vibration can accompany debris passing through the roll bite", "acoustic": "acoustic transients are consistent with foreign particles in the bite", "current": "short current spikes can occur when hard particles enter the bite"}
+    },
+    "patches": {
+      "description": "Irregular discoloured or oxidised patches on the surface.",
+      "typical_causes": ["uneven scale formation or oxidation during reheating/cooling", "non-uniform pickling or chemical bath concentration", "localised cooling-water staining"],
+      "corrective_actions": ["check reheat furnace atmosphere and soak uniformity", "verify pickling/chemical bath concentration, temperature and agitation", "inspect cooling-water nozzles for blockage"],
+      "sensor_hints": {"vibration": "vibration is usually not related to patches; check machine health separately", "acoustic": "acoustic activity is usually unrelated to patches", "current": "no direct link; treat sensor anomalies as a separate machine-health issue"}
+    },
+    "pitted_surface": {
+      "description": "Small pits or craters distributed over the surface.",
+      "typical_causes": ["scale pressed into the surface and later removed", "worn or pitted work rolls", "ineffective descaling before rolling"],
+      "corrective_actions": ["increase/verify descaling pressure and nozzle alignment", "inspect work rolls for pitting and replace if needed", "review upstream descaling and reheat practice"],
+      "sensor_hints": {"vibration": "periodic vibration may point to a damaged roll surface", "acoustic": "acoustic ticks can accompany roll surface damage", "current": "load fluctuation can accompany roll damage"}
+    },
+    "rolled-in_scale": {
+      "description": "Scale rolled into the strip surface forming dark streaks or patches.",
+      "typical_causes": ["incomplete descaling before the roughing/finishing stand", "low descaler water pressure or blocked nozzles", "excessive scale growth from long exposure at high temperature"],
+      "corrective_actions": ["verify descaler pressure and clean/replace blocked nozzles", "reduce residence time between furnace and first stand", "inspect strip upstream of the affected stand"],
+      "sensor_hints": {"vibration": "vibration bursts can occur when hard scale enters the roll bite", "acoustic": "acoustic bursts are consistent with scale fragmentation in the bite", "current": "current spikes suggest increased roll load from scale"}
+    },
+    "scratches": {
+      "description": "Linear scratches along or across the rolling direction.",
+      "typical_causes": ["misaligned or worn guide rollers and entry/exit guides", "foreign particles dragged along the strip", "roll-to-strip speed mismatch"],
+      "corrective_actions": ["inspect and realign guide rollers and strip guides", "check guide surfaces for burrs or debris", "verify roll speed synchronisation"],
+      "sensor_hints": {"vibration": "vibration bursts support guide or roller misalignment", "acoustic": "high-frequency acoustic content supports abrasion", "current": "current spikes can indicate drag or binding"}
+    }
+  },
+  "machine_only": {
+    "description": "Machine-health anomaly (spikes) with no visual defect detected.",
+    "corrective_actions": ["inspect bearings, guide rollers and drive for the flagged channel", "log the event and re-inspect the next sections visually", "escalate to maintenance if the anomaly persists across consecutive windows"]
+  }
+}

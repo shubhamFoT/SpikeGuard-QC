@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-11-19 16:58:26",
+  "machine": {
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "cpu": "80",
+    "arch": "x86_64",
+    "cores": 12,
+    "python": "3.12.3",
+    "note": "HOST measurement. Do not present as Arm Cortex-A SoC performance."
+  },
+  "stage1_executorch": {
+    "model": "/mnt/c/Users/SHUBHAM/Desktop/Study Material/Hackathon Projects/SpikeGuard-QC/runs/neu_y11n/weights/best_executorch_model/best.pte",
+    "size_mb": 10.02,
+    "images": 199,
+    "preprocess_ms": {
+      "n": 100,
+      "p50": 0.34,
+      "p95": 0.4,
+      "mean": 0.36
+    },
+    "inference_ms": {
+      "n": 100,
+      "p50": 37.23,
+      "p95": 45.63,
+      "mean": 37.28
+    },
+    "postprocess_ms": {
+      "n": 100,
+      "p50": 0.29,
+      "p95": 0.45,
+      "mean": 0.4
+    },
+    "end_to_end_ms": {
+      "n": 100,
+      "p50": 37.97,
+      "p95": 46.42,
+      "mean": 38.04
+    },
+    "mean_detections_per_image": 2,
+    "peak_rss_mb_process": 571.0,
+    "rss_growth_mb": 13.2
+  },
+  "stage1_pte_accuracy": "NOT MEASURED: pass --val-data",
+  "stage2_llama": {
+    "model": "/mnt/c/Users/SHUBHAM/Desktop/Study Material/Hackathon Projects/SpikeGuard-QC/models/llama_et/model.pte",
+    "size_mb": 914.42,
+    "runs": 2,
+    "total_response_ms": {
+      "n": 2,
+      "p50": 205228.11,
+      "p95": 231669.9,
+      "mean": 218449.0
+    },
+    "decode_tokens_per_s": {
+      "n": 2,
+      "p50": 20.64,
+      "p95": 21.63,
+      "mean": 21.14
+    },
+    "tokens_per_response_mean": 48.5,
+    "tokens_estimated": false,
+    "format_compliance": "2/2 responses followed ROOT_CAUSE/ACTION",
+    "per_token_ms_p50": 48.4
+  }
+}

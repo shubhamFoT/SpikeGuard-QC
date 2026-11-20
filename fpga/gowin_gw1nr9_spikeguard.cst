@@ -1,21 +1,24 @@
-// Physical Constraints for Sipeed Tang Nano 9K (Gowin GW1NR-LV9QN88PC6/I5)
-IO_LOC  "clk" 52;
+// Physical constraints - Sipeed Tang Nano 9K (GW1NR-LV9QN88PC6/I5)
+// !! VERIFY every pin against the Sipeed Tang Nano 9K schematic before powering anything !!
+IO_LOC "clk" 52;
 IO_PORT "clk" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
-IO_LOC  "rst_n" 4;
+IO_LOC "rst_n" 4;
 IO_PORT "rst_n" IO_TYPE=LVCMOS18 PULL_MODE=UP;
 
-IO_LOC  "uart_tx" 17;
+// Pin 17 goes to the on-board BL702 USB-UART, so uart_tx on pin 17 appears as a serial
+// port over the USB-C cable (handy for a first hardware test straight from a PC).
+IO_LOC "uart_tx" 17;
 IO_PORT "uart_tx" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
 
-IO_LOC  "hw_irq" 18;
+// CHANGED: pin 18 is the BL702 -> FPGA UART line; driving hw_irq on it can fight the
+// BL702 output. Moved to a header pin (34 here) - confirm it is free on your board.
+IO_LOC "hw_irq" 34;
 IO_PORT "hw_irq" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8;
 
-IO_LOC  "trig_flags[0]" 31;
+IO_LOC "trig_flags[0]" 31;
 IO_PORT "trig_flags[0]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
-
-IO_LOC  "trig_flags[1]" 32;
+IO_LOC "trig_flags[1]" 32;
 IO_PORT "trig_flags[1]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
-
-IO_LOC  "trig_flags[2]" 33;
+IO_LOC "trig_flags[2]" 33;
 IO_PORT "trig_flags[2]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
